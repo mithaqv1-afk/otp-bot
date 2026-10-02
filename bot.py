@@ -9,7 +9,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("أهلاً بك! البوت يعمل بنجاح وجاهز لاستخراج رموز التحقق.")
 
 async def extract_otp(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message_text = update.message.text
+    # التقاط النص سواء كان من رسالة مباشرة أو رسالة بوت أو محتوى إشعار
+    message_text = update.message.text or update.message.caption
     if not message_text:
         return
     
@@ -21,7 +22,7 @@ async def extract_otp(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     if valid_numbers:
         otp_code = valid_numbers[0]
-        # إرسال الكود وحده صافي بدون أي كلام إضافي
+        # إرسال الكود وحده صافي رداً على الرسالة المستلمة
         await update.message.reply_text(otp_code)
 
 def main():
@@ -29,8 +30,8 @@ def main():
     
     app.add_handler(CommandHandler("start", start))
     
-    # استخدام فلتر شامل (ALL) لقبول النصوص سواء من الأشخاص أو من بوتات أخرى والرسائل المحولة
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, extract_otp))
+    # استلام كل أنواع الرسائل النصية وبدون استثناءات
+    app.add_handler(MessageHandler(filters.ALL & ~filters.COMMAND, extract_otp))
     
     app.run_polling()
 
