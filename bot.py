@@ -15,7 +15,7 @@ async def extract_otp(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     # استخراج الأرقام من 4 إلى 6 منازل واستبعاد السنوات
     numbers = re.findall(r'\b\d{4,6}\b', message_text)
-    valid_numbers = [n for n in numbers if not n.startswith(('202', '203'))]
+    valid_numbers = [n for n in numbers if not n.startswith(('2026'))]
     
     if valid_numbers:
         otp_code = valid_numbers[0]
