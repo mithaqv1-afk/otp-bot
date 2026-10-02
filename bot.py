@@ -13,15 +13,14 @@ async def extract_otp(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not message_text:
         return
     
-    # استخراج كل الأرقام التي تتكون من 4 إلى 6 منازل
+    # استخراج الأرقام من 4 إلى 6 منازل واستبعاد السنوات
     numbers = re.findall(r'\b\d{4,6}\b', message_text)
-    
-    # تصفية الأرقام لاستبعاد السنوات (التي تبدأ بـ 202 أو 203)
     valid_numbers = [n for n in numbers if not n.startswith(('202', '203'))]
     
     if valid_numbers:
         otp_code = valid_numbers[0]
-        await update.message.reply_text(f"رمز التحقق هو: {otp_code}")
+        # إرسال الكود وحده صافي بدون أي كلام إضافي
+        await update.message.reply_text(otp_code)
 
 def main():
     app = ApplicationBuilder().token(TOKEN).build()
