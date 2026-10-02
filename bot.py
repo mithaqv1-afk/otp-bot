@@ -18,7 +18,7 @@ async def extract_otp(update: Update, context: ContextTypes.DEFAULT_TYPE):
     numbers = re.findall(r'\b\d{4,6}\b', message_text)
     
     # تصفية الأرقام لتجاهل سنة 2026 فقط
-    valid_numbers = [n for n in numbers if n != '2026']
+    valid_numbers = [n for n in numbers if n != '2026'٢٠٢٦']
     
     if valid_numbers:
         otp_code = valid_numbers[0]
